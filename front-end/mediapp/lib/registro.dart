@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  runApp(RegistroScreen());
+  runApp(const RegistroScreen());
 }
 
 class RegistroScreen extends StatelessWidget {
+  const RegistroScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,12 +16,14 @@ class RegistroScreen extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Raleway',
       ),
-      home: RegistrationForm(),
+      home: const RegistrationForm(),
     );
   }
 }
 
 class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
+
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
 }
@@ -32,22 +36,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Formulario de Registro',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
-        color: Color(0xFFB2E7FA), // Color hexadecimal #B2E7FA
+        color: const Color(0xFFB2E7FA), // Color hexadecimal #B2E7FA
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Texto "Create account" al principio del formulario
-                Text(
+                const Text(
                   'Create account',
                   style: TextStyle(
                     fontSize: 20,
@@ -55,22 +59,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Aquí comienza el formulario
                 buildTextFieldWithLabel('Nombre:', ''),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Agregar más campos de TextFormField con el mismo estilo
                 buildPasswordFieldWithLabel('Contraseña:'),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 // Agregar más campos de TextFormField con el mismo estilo
                 buildTextFieldWithLabel('Edad:', ''),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 buildTextFieldWithLabel('Email:', ''),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 buildPhoneNumberFieldWithLabel('Celular:', '+57'),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 buildRoleFieldWithLabel('Rol:', ['Cuidador', 'Paciente']),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     Checkbox(
@@ -81,7 +85,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         });
                       },
                     ),
-                    Text(
+                    const Text(
                       'Aceptar términos y condiciones',
                       style: TextStyle(
                         fontSize: 16,
@@ -90,17 +94,16 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                SizedBox(height: 20),
+                const SizedBox(height: 10),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     // Acción al presionar el botón de "Sign Up"
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xFF04364A), // Color hexadecimal #04364A
-                    onPrimary: Colors.white, // Texto blanco
+                    foregroundColor: Colors.white, backgroundColor: const Color(0xFF04364A), // Texto blanco
                   ),
-                  child: Text(
+                  child: const Text(
                     'Sign Up',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -119,24 +122,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Container(
           height: 40,
           decoration: BoxDecoration(
-            color: Color(0xFFB2E7FA),
+            color: const Color(0xFFB2E7FA),
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 labelText,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF04364A), // Color hexadecimal #04364A
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -144,7 +147,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               Expanded(
                 child: TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF04364A), // Color hexadecimal #04364A
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -168,24 +171,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Container(
           height: 40,
           decoration: BoxDecoration(
-            color: Color(0xFFB2E7FA),
+            color: const Color(0xFFB2E7FA),
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 labelText,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF04364A), // Color hexadecimal #04364A
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -193,13 +196,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               Expanded(
                 child: TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF04364A), // Color hexadecimal #04364A
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
                   ),
                   obscureText: true, // Oculta los caracteres de la contraseña
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: InputBorder.none,
                   ),
                 ),
@@ -217,24 +220,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Container(
           height: 40,
           decoration: BoxDecoration(
-            color: Color(0xFFB2E7FA),
+            color: const Color(0xFFB2E7FA),
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 labelText,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF04364A), // Color hexadecimal #04364A
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -242,7 +245,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               Expanded(
                 child: TextFormField(
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF04364A), // Color hexadecimal #04364A
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -268,24 +271,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
         Container(
           height: 40,
           decoration: BoxDecoration(
-            color: Color(0xFFB2E7FA),
+            color: const Color(0xFFB2E7FA),
             borderRadius: BorderRadius.circular(25),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 labelText,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF04364A), // Color hexadecimal #04364A
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -298,7 +301,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     value: role,
                     child: Text(
                       role,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF04364A), // Color hexadecimal #04364A
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

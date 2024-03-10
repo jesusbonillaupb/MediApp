@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:proyect_views_front/bienvenida.dart'; // Importa la pantalla de bienvenida desde bienvenida.dart
-import 'login.dart'; // Importa la pantalla de inicio de sesión desde login.dart
+
 
 void main() {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // Para hacer la barra de estado transparente
   ));
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,20 +20,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
       // Definimos las rutas de navegación
       routes: {
-        '/bienvenida': (context) => BienvenidaScreen(), // Utiliza BienvenidaScreen desde bienvenida.dart
+        '/bienvenida': (context) => const BienvenidaScreen(), // Utiliza BienvenidaScreen desde bienvenida.dart
       },
     );
   }
 }
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFB2E7FA), // Color hexadecimal #B2E7FA
+      backgroundColor: const Color(0xFFB2E7FA), // Color hexadecimal #B2E7FA
       body: Center(
         child: GestureDetector(
           onTap: () {
@@ -42,14 +46,14 @@ class WelcomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: MediaQuery.of(context).size.height * 0.2), // Espacio arriba para centrar la imagen
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width, // Ancho completo de la pantalla
                 child: Image.asset(
                   'assets/pills4u.png', // Ruta de tu imagen de logo
                   fit: BoxFit.fitWidth, // Ajusta la imagen al ancho del contenedor
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),

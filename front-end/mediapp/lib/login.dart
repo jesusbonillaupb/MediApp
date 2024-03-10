@@ -5,7 +5,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Inicio de Sesión',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // Texto "Log In" al principio del formulario
-                Text(
+                const Text(
                   'Login to your account:',
                   style: TextStyle(
                     fontSize: 20,
@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Aquí comienza el formulario
                 buildTextFieldWithLabel('Correo electrónico:', ''),
                 SizedBox(height: 10),
@@ -45,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                     primary: Color(0xFF04364A), // Color hexadecimal #04364A
                     onPrimary: Colors.white, // Texto blanco
                   ),
-                  child: Text(
+                  child: const Text(
                     'Log In',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -135,7 +135,7 @@ class LoginScreen extends StatelessWidget {
             children: [
               Text(
                 labelText,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF04364A), // Color hexadecimal #04364A
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

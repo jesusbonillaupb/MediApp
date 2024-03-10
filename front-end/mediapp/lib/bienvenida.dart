@@ -3,10 +3,12 @@ import 'login.dart'; // Importa la pantalla de inicio de sesión desde login.dar
 import 'registro.dart'; // Importa la pantalla de registro desde registro.dart
 
 void main() {
-  runApp(BienvenidaScreen());
+  runApp(const BienvenidaScreen());
 }
 
 class BienvenidaScreen extends StatelessWidget {
+  const BienvenidaScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,19 +19,21 @@ class BienvenidaScreen extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => WelcomeScreen(),
-        '/login': (context) => LoginScreen(),
-        '/registro': (context) => RegistroScreen(),
+        '/': (context) => const WelcomeScreen(),
+        '/login': (context) =>  LoginScreen(),
+        '/registro': (context) => const RegistroScreen(),
       },
     );
   }
 }
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFB2E7FA), // Fondo color B2E7FA
+      backgroundColor: const Color(0xFFB2E7FA), // Fondo color B2E7FA
       body: Column(
         children: [
           Expanded(
@@ -46,17 +50,17 @@ class WelcomeScreen extends StatelessWidget {
           Expanded(
             flex: 5,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0xFFB2E7FA), // Fondo color B2E7FA
                 borderRadius: BorderRadius.vertical(top: Radius.circular(35)),
               ),
               child: Padding(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
+                    const Text(
                       '¡Bienvenido a nuestra App!',
                       style: TextStyle(
                         fontSize: 24,
@@ -64,28 +68,27 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       'Una breve descripción de la aplicación y sus funcionalidades.',
                       style: TextStyle(
                         fontSize: 16,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 40),
+                    const SizedBox(height: 40),
                     ElevatedButton(
                       onPressed: () {
                         // Redirige a la pantalla de inicio de sesión
                         Navigator.pushNamed(context, '/login');
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF04364A), // Fondo color 04364A
-                        onPrimary: Colors.white, // Texto blanco
+                        foregroundColor: Colors.white, backgroundColor: const Color(0xFF04364A), // Texto blanco
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           'Iniciar Sesión',
@@ -95,20 +98,19 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     OutlinedButton(
                       onPressed: () {
                         // Redirige a la pantalla de registro
                         Navigator.pushNamed(context, '/registro');
                       },
                       style: OutlinedButton.styleFrom(
-                        primary: Color(0xFFB2E7FA), // Color del fondo
-                        side: BorderSide(width: 2, color: Colors.black), // Borde del botón
+                        foregroundColor: const Color(0xFFB2E7FA), side: const BorderSide(width: 2, color: Colors.black), // Borde del botón
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      child: Padding(
+                      child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           'Registrarse',
