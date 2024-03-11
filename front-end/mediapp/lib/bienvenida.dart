@@ -61,12 +61,12 @@ class WelcomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      '¡Bienvenido a nuestra App!',
+                      'Bienvenido',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontFamily: 'Raleway',
                         fontWeight: FontWeight.bold,
+                        fontSize: 40,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
                     const Text(
