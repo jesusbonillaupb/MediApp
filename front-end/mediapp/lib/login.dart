@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyect_views_front/widgets/mi_boton.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -30,17 +31,10 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 10),
             buildTextFieldWithLabel('Contraseña:', ''),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xFF04364A),
-                onPrimary: Colors.white,
-              ),
-              child: Text(
-                'Log In',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
+            const MiBoton(texto: 'Ingresar',
+                 colorTexto: Colors.white, 
+                 colorFondo: Color(0xFF04364A),
+                ),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
