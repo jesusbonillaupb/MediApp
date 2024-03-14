@@ -1,44 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:proyect_views_front/AppStyles/my_text_styles.dart';
 import 'package:proyect_views_front/widgets/mi_boton.dart';
 
-class AppStyles {
-  static final TextStyle appBarTitle = TextStyle(
-    fontWeight: FontWeight.w900,
-    fontFamily: 'Raleway',
-  );
 
-  static final TextStyle loginHeader = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w900,
-    fontFamily: 'Raleway',
-  );
-
-  static final TextStyle labelText = TextStyle(
-    color: Color(0xFF04364A),
-    fontWeight: FontWeight.w900,
-    fontSize: 16,
-    fontFamily: 'Raleway',
-  );
-
-  static final TextStyle loginButton = TextStyle(
-    fontWeight: FontWeight.w900,
-    fontFamily: 'Raleway',
-  );
-
-  static final TextStyle forgotPassword = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w900,
-    color: Color(0xFF04364A),
-    fontFamily: 'Raleway',
-  );
-
-  static final TextStyle otherLoginMethods = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w900,
-    color: Color(0xFF04364A),
-    fontFamily: 'Raleway',
-  );
-}
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -47,7 +11,7 @@ class LoginScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Inicio de Sesión',
-          style: AppStyles.appBarTitle,
+          style: TextStyles.appBarTitle,
         ),
       ),
       body: Container(
@@ -59,7 +23,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             Text(
               'Login to your account:',
-              style: AppStyles.loginHeader,
+              style: TextStyles.loginHeader,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
@@ -78,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                 Spacer(),
                 Text(
                   '¿Olvidaste tu contraseña?',
-                  style: AppStyles.forgotPassword,
+                  style: TextStyles.forgotPassword,
                 ),
               ],
             ),
@@ -87,7 +51,7 @@ class LoginScreen extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Otras maneras de login:',
-                style: AppStyles.otherLoginMethods,
+                style: TextStyles.otherLoginMethods,
                 textAlign: TextAlign.left,
               ),
             ),
@@ -126,11 +90,11 @@ class LoginScreen extends StatelessWidget {
         children: [
           Text(
             labelText,
-            style: AppStyles.labelText,
+            style: TextStyles.labelText,
           ),
           Expanded(
             child: TextFormField(
-              style: AppStyles.labelText,
+              style: TextStyles.labelText,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: hintText,
