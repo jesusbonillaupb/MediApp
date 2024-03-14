@@ -21,7 +21,7 @@ class BienvenidaScreen extends StatelessWidget {
       routes: {
         '/': (context) => const WelcomeScreen(),
         '/login': (context) =>  LoginScreen(),
-        '/registro': (context) => const RegistroScreen(),
+        '/registro': (context) => RegistroScreen(),
       },
     );
   }

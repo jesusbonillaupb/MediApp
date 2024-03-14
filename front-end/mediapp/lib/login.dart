@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:proyect_views_front/AppStyles/my_text_styles.dart';
 import 'package:proyect_views_front/widgets/mi_boton.dart';
+import 'package:proyect_views_front/widgets/mi_campo_texto.dart';
 
 
 
 class LoginScreen extends StatelessWidget {
+  final correo = TextEditingController();
+  final password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,19 +25,34 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Login to your account:',
+              'Ingresa a tu cuenta:',
               style: TextStyles.loginHeader,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
-            buildTextFieldWithLabel('Correo electrónico:', ''),
+            MiCampoTexto(
+                  controller: correo,
+                  hintText: '', 
+                  labelText: 'Correo:', 
+                  tipo: 'Texto',
+            ),
             SizedBox(height: 10),
-            buildTextFieldWithLabel('Contraseña:', ''),
+            MiCampoTexto(
+              controller: password,
+              hintText: '', 
+              labelText: 'Contraseña:', 
+              tipo: 'Contrasena',
+            ),
             SizedBox(height: 20),
-            const MiBoton(texto: 'Ingresar',
-                 colorTexto: Colors.white, 
-                 colorFondo: Color(0xFF04364A),
-                ),
+            MiBoton(
+              onPressed: (){
+                
+
+              },
+              texto: 'Ingresar',
+              colorTexto: Colors.white, 
+              colorFondo: Color(0xFF04364A),
+            ),
             SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
