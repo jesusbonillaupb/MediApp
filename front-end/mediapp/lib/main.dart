@@ -100,7 +100,7 @@ class HomePageState extends State<HomePage> {
       ),
       body: Container(
         color: const Color(0xFFB2E7FA),
-        child: Center(
+        child: const Center(
           child: Text(
             'Welcome to Home',
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
@@ -108,5 +108,6 @@ class HomePageState extends State<HomePage> {
         ),
       ),
     );
+  
   }
 }

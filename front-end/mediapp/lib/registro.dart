@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:proyect_views_front/AppStyles/my_text_styles.dart';
+
+import 'package:proyect_views_front/rest/rest_api.dart';
 import 'package:proyect_views_front/widgets/mi_boton.dart';
 import 'package:proyect_views_front/widgets/mi_campo_texto.dart';
 
@@ -52,7 +55,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final correo = TextEditingController();
   final celular = TextEditingController();
   final rol = TextEditingController();
-  bool _termsAccepted = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //bool _termsAccepted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,50 +79,56 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               const SizedBox(height: 20),
               // Aquí comienza el formulario
-              MiCampoTexto(
-                controller: nombre,
-                hintText: '',
-                labelText: 'Nombre:',
-                tipo: 'Texto',
+              Form(
+                key: _formKey,
+                child: Column(
+                  children:[
+                    MiCampoTexto(
+                      controller: nombre,
+                      hintText: '',
+                      labelText: 'Nombre:',
+                      tipo: 'Texto',
+                    ),
+                    const SizedBox(height: 10),
+                    MiCampoTexto(
+                      controller: password,
+                      hintText: '',
+                      labelText: 'Contraseña:',
+                      tipo: 'Contrasena',
+                    ),
+                    const SizedBox(height: 10),
+                    MiCampoTexto(
+                      controller: edad,
+                      hintText: '',
+                      labelText: 'Edad:',
+                      tipo: 'Edad',
+                    ),
+                    const SizedBox(height: 10),
+                    MiCampoTexto(
+                      controller: correo,
+                      hintText: '',
+                      labelText: 'Correo:',
+                      tipo: 'Texto',
+                    ),
+                    const SizedBox(height: 10),
+                    MiCampoTexto(
+                      controller: celular,
+                      hintText: '',
+                      labelText: 'Celular:',
+                      tipo: 'Celular',
+                    ),
+                    const SizedBox(height: 10),
+                    MiCampoTexto(
+                      controller: rol,
+                      hintText: '',
+                      labelText: 'Rol:',
+                      opciones: ['Cuidador', 'Paciente'],
+                      tipo: 'Seleccion',
+                    ),
+                    const SizedBox(height: 10),
+                  ]) ,
               ),
-              const SizedBox(height: 10),
-              MiCampoTexto(
-                controller: password,
-                hintText: '',
-                labelText: 'Contraseña:',
-                tipo: 'Contrasena',
-              ),
-              const SizedBox(height: 10),
-              MiCampoTexto(
-                controller: edad,
-                hintText: '',
-                labelText: 'Edad:',
-                tipo: 'Edad',
-              ),
-              const SizedBox(height: 10),
-              MiCampoTexto(
-                controller: correo,
-                hintText: '',
-                labelText: 'Correo:',
-                tipo: 'Texto',
-              ),
-              const SizedBox(height: 10),
-              MiCampoTexto(
-                controller: celular,
-                hintText: '',
-                labelText: 'Celular:',
-                tipo: 'Celular',
-              ),
-              const SizedBox(height: 10),
-              MiCampoTexto(
-                controller: rol,
-                hintText: '',
-                labelText: 'Rol:',
-                opciones: ['Cuidador', 'Paciente'],
-                tipo: 'Seleccion',
-              ),
-              const SizedBox(height: 10),
-              Row(
+              /* Row(
                 children: [
                   Checkbox(
                     value: _termsAccepted,
@@ -136,11 +146,24 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     ),
                   ),
                 ],
-              ),
+              ),*/
               const SizedBox(height: 10),
               const SizedBox(height: 20),
               MiBoton(
-                onPressed: () {},
+                onPressed: () {
+                  
+                  nombre.text.isNotEmpty &&
+                  password.text.isNotEmpty &&
+                  edad.text.isNotEmpty &&
+                  correo.text.isNotEmpty &&
+                  celular.text.isNotEmpty &&
+                  rol.text.isNotEmpty
+                  ? doRegister(
+                    nombre.text,password.text,correo.text,celular.text,edad.text,rol.text)
+                  : Fluttertoast.showToast(
+                      msg: 'Llena todos los campos',
+                      textColor: Colors.red);
+                },
                 texto: 'Registrar',
                 colorTexto: Colors.white,
                 colorFondo: Color(0xFF04364A),
@@ -150,5 +173,26 @@ class _RegistrationFormState extends State<RegistrationForm> {
         ),
       ),
     );
+    
+  }
+  
+  doRegister(String nombre , String password, String correo, String celular, String edad, String rol) async {
+    int edadCorregida = int.parse(edad);
+    int rolCorregido= 0;
+    if (rol == 'Paciente'){
+      rolCorregido= 1;
+    }else{
+      rolCorregido=2;
+    }
+    
+    var res=await userRegister(nombre, password, correo, celular, edadCorregida, rolCorregido);
+    if(res['success']){
+      Fluttertoast.showToast(msg: 'Registro exitoso, vuelva al inicio',textColor: Colors.green);
+    }
+    else{
+      Fluttertoast.showToast(msg: 'fallo al registrarse, intentalo denuevo',textColor: Colors.red);
+    } 
+    
+
   }
 }

@@ -322,6 +322,7 @@ class _MiCampoTextoState extends State<MiCampoTexto> {
                 onChanged: (String? value) {
                   setState(() {
                     widget.selectedOption = value;
+                    widget.controller.text = value!; 
                   });
                 },
               ),
