@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:proyect_views_front/AppStyles/my_text_styles.dart';
+import 'package:proyect_views_front/home_page.dart';
 import 'package:proyect_views_front/widgets/mi_boton.dart';
 import 'package:proyect_views_front/widgets/mi_campo_texto.dart';
+import 'package:proyect_views_front/rest/rest_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-
-
+// ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
-  final correo = TextEditingController();
-  final password = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final _correoController = TextEditingController();
+  final _passwordController = TextEditingController();
+  
+  // llamada a shared prefences
+  late SharedPreferences _sharedPreferences;
+
+  LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +28,7 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Color(0xFFB2E7FA),
+        color: const Color(0xFFB2E7FA),
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -30,27 +40,36 @@ class LoginScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 20),
-            MiCampoTexto(
-                  controller: correo,
-                  hintText: '', 
-                  labelText: 'Correo:', 
-                  tipo: 'Texto',
-            ),
-            SizedBox(height: 10),
-            MiCampoTexto(
-              controller: password,
-              hintText: '', 
-              labelText: 'Contraseña:', 
-              tipo: 'Contrasena',
-            ),
+            Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    MiCampoTexto(
+                      controller: _correoController,
+                      hintText: '',
+                      labelText: 'Correo:',
+                      tipo: 'Texto',
+                    ),
+                    SizedBox(height: 10),
+                    MiCampoTexto(
+                      controller: _passwordController,
+                      hintText: '',
+                      labelText: 'Contraseña:',
+                      tipo: 'Contrasena',
+                    ),
+                  ],
+                )),
             SizedBox(height: 20),
             MiBoton(
-              onPressed: (){
-                
-
+              onPressed: () {
+                _correoController.text.isNotEmpty &&
+                        _passwordController.text.isNotEmpty
+                    ? doLogin(_correoController.text, _passwordController.text, context)
+                    : Fluttertoast.showToast(
+                        msg: 'Llena todos los campos', textColor: Colors.red);
               },
               texto: 'Ingresar',
-              colorTexto: Colors.white, 
+              colorTexto: Colors.white,
               colorFondo: Color(0xFF04364A),
             ),
             SizedBox(height: 20),
@@ -87,43 +106,6 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget buildTextFieldWithLabel(String labelText, String hintText) {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        color: Color(0xFFB2E7FA),
-        borderRadius: BorderRadius.circular(25),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 7,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            labelText,
-            style: TextStyles.labelText,
-          ),
-          Expanded(
-            child: TextFormField(
-              style: TextStyles.labelText,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hintText,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget buildLoginMethodBox(String assetImagePath) {
     return Container(
       width: 80,
@@ -138,5 +120,26 @@ class LoginScreen extends StatelessWidget {
       ),
       child: Image.asset(assetImagePath),
     );
+  }
+
+  doLogin(String correo, String password, BuildContext context) async {
+    _sharedPreferences=await SharedPreferences.getInstance();
+    
+    var res = await userLogin(correo.trim(), password.trim());
+    
+    if (res['success']) {
+      String userEmail = res['user'][0]['us_Correo'];
+      String userName = res['user'][0]['us_Nombre'];
+      int userId = res['user'][0]['id_Usuario'];
+     
+      _sharedPreferences.setInt('userid', userId);
+      _sharedPreferences.setString('usermail', userEmail);
+      _sharedPreferences.setString('username', userName);
+      Route route = MaterialPageRoute(builder: (_) => HomePage());
+      Navigator.pushReplacement(context, route);
+    } else {
+      Fluttertoast.showToast(
+          msg: 'correo y/o contraseña incorrectos', textColor: Colors.red);
+    }
   }
 }

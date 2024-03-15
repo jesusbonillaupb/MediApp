@@ -19,7 +19,21 @@ class RegistroScreen extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Raleway',
       ),
-      home: const RegistrationForm(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Formulario de Registro',
+            style: TextStyles.appBarTitle,
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back), // Icono de retroceso
+            onPressed: () {
+              Navigator.pop(context); // Regresa a la pantalla anterior
+            },
+          ),
+        ),
+        body: const RegistrationForm(),
+      ),
     );
   }
 }
@@ -39,118 +53,102 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final celular = TextEditingController();
   final rol = TextEditingController();
   bool _termsAccepted = false;
-  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Formulario de Registro',
-          style: TextStyles.appBarTitle,
-        ),
-      ),
-      body: Container(
-        color: const Color(0xFFB2E7FA), // Color hexadecimal #B2E7FA
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                
-                const Text(
-                  'Crea una cuenta',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+    return Container(
+      color: const Color(0xFFB2E7FA), // Color hexadecimal #B2E7FA
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                'Crea una cuenta',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              // Aquí comienza el formulario
+              MiCampoTexto(
+                controller: nombre,
+                hintText: '',
+                labelText: 'Nombre:',
+                tipo: 'Texto',
+              ),
+              const SizedBox(height: 10),
+              MiCampoTexto(
+                controller: password,
+                hintText: '',
+                labelText: 'Contraseña:',
+                tipo: 'Contrasena',
+              ),
+              const SizedBox(height: 10),
+              MiCampoTexto(
+                controller: edad,
+                hintText: '',
+                labelText: 'Edad:',
+                tipo: 'Edad',
+              ),
+              const SizedBox(height: 10),
+              MiCampoTexto(
+                controller: correo,
+                hintText: '',
+                labelText: 'Correo:',
+                tipo: 'Texto',
+              ),
+              const SizedBox(height: 10),
+              MiCampoTexto(
+                controller: celular,
+                hintText: '',
+                labelText: 'Celular:',
+                tipo: 'Celular',
+              ),
+              const SizedBox(height: 10),
+              MiCampoTexto(
+                controller: rol,
+                hintText: '',
+                labelText: 'Rol:',
+                opciones: ['Cuidador', 'Paciente'],
+                tipo: 'Seleccion',
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Checkbox(
+                    value: _termsAccepted,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _termsAccepted = value!;
+                      });
+                    },
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                // Aquí comienza el formulario
-                MiCampoTexto( 
-                  controller: nombre,
-                  hintText: '',
-                  labelText: 'Nombre:', 
-                  tipo: 'Texto',
-                ),
-                const SizedBox(height: 10),
-                
-                MiCampoTexto(
-                  controller: password,
-                  hintText: '', 
-                  labelText: 'Contraseña:', 
-                  tipo: 'Contrasena',
-                ),
-                const SizedBox(height: 10),
-                MiCampoTexto(
-                  controller: edad,
-                  hintText: '', 
-                  labelText: 'Edad:', 
-                  tipo: 'Edad',
-                ),
-                const SizedBox(height: 10),
-                MiCampoTexto(
-                  controller: correo,
-                  hintText: '', 
-                  labelText: 'Correo:', 
-                  tipo: 'Texto',
-                ),
-                const SizedBox(height: 10),
-                MiCampoTexto(
-                  controller: celular,
-                  hintText: '', 
-                  labelText: 'Celular:', 
-                  tipo: 'Celular',
-                ),
-                const SizedBox(height: 10),
-                MiCampoTexto(
-                  controller: rol,
-                  hintText: '', 
-                  labelText: 'Rol:',
-                  opciones: ['Cuidador','Paciente'],
-                  tipo: 'Seleccion',
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Checkbox(
-                      value: _termsAccepted,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _termsAccepted = value!;
-                        });
-                      },
+                  const Text(
+                    'Aceptar términos y condiciones',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const Text(
-                      'Aceptar términos y condiciones',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                const SizedBox(height: 20),
-                MiBoton(
-                  onPressed: (){
-                    
-
-                  },
-                  texto: 'Registrar',
-                  colorTexto: Colors.white, 
-                  colorFondo: Color(0xFF04364A),
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              MiBoton(
+                onPressed: () {},
+                texto: 'Registrar',
+                colorTexto: Colors.white,
+                colorFondo: Color(0xFF04364A),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
-
-  
 }

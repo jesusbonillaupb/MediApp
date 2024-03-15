@@ -70,7 +70,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      'Una breve descripción de la aplicación y sus funcionalidades.',
+                      'Ingresa para llevar control de tus medicamentos y horarios.',
                       style: TextStyle(
                         fontSize: 16,
                       ),
