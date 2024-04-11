@@ -84,22 +84,7 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Otras maneras de login:',
-                style: TextStyles.otherLoginMethods,
-                textAlign: TextAlign.left,
-              ),
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                buildLoginMethodBox('assets/google.png'),
-                buildLoginMethodBox('assets/facebook.png'),
-              ],
-            ),
+            
           ],
         ),
       ),
