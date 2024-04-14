@@ -54,7 +54,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final edad = TextEditingController();
   final correo = TextEditingController();
   final celular = TextEditingController();
-  final rol = TextEditingController();
+ 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   //bool _termsAccepted = false;
 
@@ -118,35 +118,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       tipo: 'Celular',
                     ),
                     const SizedBox(height: 10),
-                    MiCampoTexto(
-                      controller: rol,
-                      hintText: '',
-                      labelText: 'Rol:',
-                      opciones: ['Cuidador', 'Paciente'],
-                      tipo: 'Seleccion',
-                    ),
-                    const SizedBox(height: 10),
+                    
                   ]) ,
               ),
-              /* Row(
-                children: [
-                  Checkbox(
-                    value: _termsAccepted,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _termsAccepted = value!;
-                      });
-                    },
-                  ),
-                  const Text(
-                    'Aceptar términos y condiciones',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),*/
+              
               const SizedBox(height: 10),
               const SizedBox(height: 20),
               MiBoton(
@@ -156,10 +131,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   password.text.isNotEmpty &&
                   edad.text.isNotEmpty &&
                   correo.text.isNotEmpty &&
-                  celular.text.isNotEmpty &&
-                  rol.text.isNotEmpty
+                  celular.text.isNotEmpty
                   ? doRegister(
-                    nombre.text,password.text,correo.text,celular.text,edad.text,rol.text)
+                    nombre.text,password.text,correo.text,celular.text,edad.text)
                   : Fluttertoast.showToast(
                       msg: 'Llena todos los campos',
                       textColor: Colors.red);
@@ -176,16 +150,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
     
   }
   
-  doRegister(String nombre , String password, String correo, String celular, String edad, String rol) async {
+  doRegister(String nombre , String password, String correo, String celular, String edad) async {
     int edadCorregida = int.parse(edad);
-    int rolCorregido= 0;
-    if (rol == 'Paciente'){
-      rolCorregido= 1;
-    }else{
-      rolCorregido=2;
-    }
     
-    var res=await userRegister(nombre, password, correo, celular, edadCorregida, rolCorregido);
+    
+    var res=await userRegister(nombre, password, correo, celular, edadCorregida);
     if(res['success']){
       Fluttertoast.showToast(msg: 'Registro exitoso, vuelva al inicio',textColor: Colors.green);
     }

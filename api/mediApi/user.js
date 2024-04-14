@@ -9,13 +9,13 @@ router.route('/register').post((req,res)=>{
     var correo=req.body.correo;
     var celular=req.body.celular;
     var edad=req.body.edad;
-    var rol=req.body.rol;
+    
 
     //crear Query 
-    var sqlQuery="INSERT INTO Usuarios(us_Nombre, us_Password, us_Correo, us_Celular, us_Edad, FK_Rol) VALUES (?, ?, ?, ?, ?, ?)";
+    var sqlQuery="INSERT INTO Usuarios(us_Nombre, us_Password, us_Correo, us_Celular, us_Edad) VALUES (?, ?, ?, ?, ?)";
 
     //llamar a la base de datos para insertar
-    db.query(sqlQuery,[nombre,password,correo,celular,edad,rol],function(error,data,fields){
+    db.query(sqlQuery,[nombre,password,correo,celular,edad],function(error,data,fields){
         if(error)
         {
             //Por si sale mal
