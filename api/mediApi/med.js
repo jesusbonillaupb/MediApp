@@ -19,7 +19,8 @@ router.route('/register').post((req, res) => {
             res.send(JSON.stringify({ success: false, message: error }));
         } else {
             //Por si sale bien
-            res.send(JSON.stringify({ success: true, message: 'medicamento registrado ', }));
+            var insertedId = data.insertId;
+            res.send(JSON.stringify({ success: true, med: insertedId, }));
         }
     });
 

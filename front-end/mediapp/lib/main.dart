@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'bienvenida.dart'; // Importa la pantalla de bienvenida desde bienvenida.dart
+import 'package:proyect_views_front/screens/home_page.dart';
+
+import 'screens/bienvenida.dart'; // Importa la pantalla de bienvenida desde bienvenida.dart
 
 void main() {
   runApp(const MyApp());
@@ -58,56 +59,4 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return HomePageState();
-  }
-}
 
-class HomePageState extends State<HomePage> {
-  late SharedPreferences _prefs;
-
-  @override
-  void initState() {
-    super.initState();
-    _initSharedPreferences();
-  }
-
-  // Método para inicializar SharedPreferences
-  void _initSharedPreferences() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
-  // Método para eliminar los datos de sesión y volver a la pantalla principal
-  void _logout() {
-    _prefs.clear(); // Borra todos los datos guardados en SharedPreferences
-    Navigator.popUntil(context, ModalRoute.withName('/')); // Regresa a la pantalla principal del main.dart
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: _logout, // Llama al método _logout al hacer clic en el botón de logout
-          ),
-        ],
-      ),
-      body: Container(
-        color: const Color(0xFFB2E7FA),
-        child: const Center(
-          child: Text(
-            'Welcome to Home',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
-    );
-  
-  }
-}
