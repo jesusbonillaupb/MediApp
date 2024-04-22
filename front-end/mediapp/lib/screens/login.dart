@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:proyect_views_front/AppStyles/my_text_styles.dart';
-import 'package:proyect_views_front/home_page.dart';
+import 'package:proyect_views_front/screens/home_page.dart';
 import 'package:proyect_views_front/widgets/mi_boton.dart';
 import 'package:proyect_views_front/widgets/mi_campo_texto.dart';
 import 'package:proyect_views_front/rest/rest_api.dart';
