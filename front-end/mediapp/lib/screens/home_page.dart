@@ -94,13 +94,17 @@ class HomePageState extends State<HomePage> {
                                             nombre: medicamento['med_Nombre'],
                                             dosis: medicamento["med_Dosis"],
                                             idmed: medicamento["idMedicamento"],
-                                            deleteAction: (){
-                                              delMed(medicamento["idMedicamento"].toString());
+                                            deleteAction: () {
+                                              delMed(
+                                                  medicamento["idMedicamento"]
+                                                      .toString());
                                             },
                                             editarAction: () {
-                                              
+                                              _showEditMedicationDialog(
+                                                  context,
+                                                  medicamento["idMedicamento"]
+                                                      .toString());
                                             })
-                                            
                                       ],
                                     );
                                   },
@@ -170,19 +174,16 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  void _showEditMedicationDialog(BuildContext context, String name, String type,
-      List<String> days, String time, String description, String dosage) {
+  void _showEditMedicationDialog(BuildContext context, String id_Med) {
     showDialog(
       context: context,
       builder: (context) {
         return _buildEditMedicationDialog(
-            context, 'Editar Medicamento', 'Guardar Cambios',
-            initialName: name,
-            initialType: type,
-            initialDays: days,
-            initialTime: time,
-            initialDescription: description,
-            initialDosage: dosage);
+          context,
+          'Editar Medicamento',
+          id_Med,
+          'Guardar Cambios',
+        );
       },
     );
   }
@@ -353,112 +354,188 @@ class HomePageState extends State<HomePage> {
   Widget _buildEditMedicationDialog(
     BuildContext context,
     String title,
-    String confirmLabel, {
-    String? initialName,
-    String? initialType,
-    List<String>? initialDays,
-    String? initialTime,
-    String? initialDescription,
-    String? initialDosage,
-  }) {
-    TextEditingController nameController =
-        TextEditingController(text: initialName);
-    TextEditingController typeController =
-        TextEditingController(text: initialType);
-    TextEditingController descriptionController =
-        TextEditingController(text: initialDescription);
-    TextEditingController dosageController =
-        TextEditingController(text: initialDosage);
+    String id_Med,
+    String confirmLabel,
+  ) {
+    return FutureBuilder<List<dynamic>>(
+      future: medAndRecGet(id_Med),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          List<dynamic> recordatorios = snapshot.data!;
+          final rec = recordatorios[0];
+          List<String> diasSemana = recordatorios.map<String>((recordatorio) {
+            return recordatorio['re_DiaSemana'];
+          }).toList();
+          // desfomatear la hora pasarlo de 13:00:00 a 1:00  PM
+          String tiempo = rec['re_Hora'];
+          List<String> partes = tiempo.split(':');
+          String hora = partes[0];
+          String minuto = partes[1];
 
-    return AlertDialog(
-      title: Text(title),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-                controller: nameController,
-                decoration:
-                    InputDecoration(labelText: 'Nombre del Medicamento')),
-            TextField(
-                controller: typeController,
-                decoration: InputDecoration(labelText: 'Tipo de Medicamento')),
-            MultiSelectFormField(
-              autovalidate:
-                  AutovalidateMode.always, // Modo de validación automática
-              dataSource: const [
-                {'display': 'Lunes', 'value': 'Lunes'},
-                {'display': 'Martes', 'value': 'Martes'},
-                {'display': 'Miércoles', 'value': 'Miércoles'},
-                {'display': 'Jueves', 'value': 'Jueves'},
-                {'display': 'Viernes', 'value': 'Viernes'},
-                {'display': 'Sábado', 'value': 'Sábado'},
-                {'display': 'Domingo', 'value': 'Domingo'},
-              ],
-              textField: 'display',
-              valueField: 'value',
-              okButtonLabel: 'Aceptar',
-              cancelButtonLabel: 'Cancelar',
-              hintWidget: Text('Seleccione los días'),
-              onSaved: (value) {
-                // Handle dropdown value change
-              },
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                      controller: TextEditingController(text: initialTime),
-                      decoration: InputDecoration(labelText: 'Hora')),
-                ),
-                SizedBox(width: 8.0),
-                Expanded(
-                  child: TextField(
-                      controller: TextEditingController(text: initialTime),
-                      decoration: InputDecoration(labelText: 'Minutos')),
-                ),
-                SizedBox(width: 8.0),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: 'AM',
-                    items: ['AM', 'PM'].map((period) {
-                      return DropdownMenuItem<String>(
-                        value: period,
-                        child: Text(period),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      // Handle dropdown value change
-                    },
-                    decoration: InputDecoration(labelText: 'AM/PM'),
+          String horaDesFormateada = desFormatearHora(hora);
+          String minutoDesFormateado = minuto;
+          String? _selectedAmOrPM = determinarAmPm(hora);
+
+          List<dynamic> _selectedDays = diasSemana;
+          // controladores texto
+          TextEditingController nameController =
+              TextEditingController(text: rec['med_Nombre']);
+          TextEditingController typeController =
+              TextEditingController(text: rec['med_Tipo']);
+          TextEditingController descriptionController =
+              TextEditingController(text: rec['med_Descripcion']);
+          TextEditingController dosageController =
+              TextEditingController(text: rec['med_Dosis']);
+          TextEditingController hourController =
+              TextEditingController(text: horaDesFormateada);
+          TextEditingController minuteController =
+              TextEditingController(text: minutoDesFormateado);
+
+          return AlertDialog(
+            title: Text(title),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Nombre del Medicamento',
+                    ),
                   ),
-                ),
-              ],
+                  TextField(
+                    controller: typeController,
+                    decoration: InputDecoration(
+                      labelText: 'Tipo de Medicamento',
+                    ),
+                  ),
+                  MultiSelectFormField(
+                    autovalidate: AutovalidateMode.always,
+                    dataSource: const [
+                      {'display': 'Lunes', 'value': 'Lunes'},
+                      {'display': 'Martes', 'value': 'Martes'},
+                      {'display': 'Miércoles', 'value': 'Miércoles'},
+                      {'display': 'Jueves', 'value': 'Jueves'},
+                      {'display': 'Viernes', 'value': 'Viernes'},
+                      {'display': 'Sábado', 'value': 'Sábado'},
+                      {'display': 'Domingo', 'value': 'Domingo'},
+                    ],
+                    title: Text("Días"),
+                    textField: 'display',
+                    valueField: 'value',
+                    okButtonLabel: 'Aceptar',
+                    cancelButtonLabel: 'Cancelar',
+                    hintWidget: Text('Seleccione los días'),
+                    initialValue: diasSemana,
+                    onSaved: (value) {
+                      setState(() {
+                        _selectedDays = value;
+                      });
+                    },
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: hourController,
+                          decoration: InputDecoration(labelText: 'Hora'),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(2),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      Expanded(
+                        child: TextField(
+                          controller: minuteController,
+                          decoration: InputDecoration(labelText: 'Minutos'),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(2),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      Expanded(
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedAmOrPM,
+                          items: ['AM', 'PM'].map((period) {
+                            return DropdownMenuItem<String>(
+                              value: period,
+                              child: Text(period),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedAmOrPM = value;
+                            });
+                          },
+                          decoration: InputDecoration(labelText: 'AM/PM'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: descriptionController,
+                    decoration:
+                        InputDecoration(labelText: 'Descripcion(opcional)'),
+                  ),
+                  TextField(
+                    controller: dosageController,
+                    decoration: InputDecoration(labelText: 'Dosis'),
+                  ),
+                ],
+              ),
             ),
-            TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(labelText: 'Descripción')),
-            TextField(
-                controller: dosageController,
-                decoration: InputDecoration(labelText: 'Dosis')),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text('Cancelar'),
-        ),
-        TextButton(
-          onPressed: () {
-            print(nameController.text);
-            print(descriptionController.text);
-            print(dosageController.text);
-            Navigator.of(context).pop();
-          },
-          child: Text(confirmLabel),
-        ),
-      ],
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () {
+                  hourController.text.isNotEmpty &&
+                          minuteController.text.isNotEmpty &&
+                          _selectedDays.isNotEmpty &&
+                          nameController.text.isNotEmpty &&
+                          typeController.text.isNotEmpty &&
+                          int.parse(hourController.text) >= 1 &&
+                          int.parse(hourController.text) <= 12 &&
+                          int.parse(minuteController.text) >= 0 &&
+                          int.parse(minuteController.text) <= 59 &&
+                          dosageController.text.isNotEmpty
+                      ? updMed(
+                          context,
+                          id_Med,
+                          nameController.text,
+                          typeController.text,
+                          descriptionController.text.isNotEmpty
+                              ? descriptionController.text
+                              : "",
+                          dosageController.text,
+                          _selectedDays,
+                          hourController.text,
+                          minuteController.text,
+                          _selectedAmOrPM)
+                      : Fluttertoast.showToast(
+                          msg: 'Campo(s) sin llenar u hora invalida',
+                          textColor: Colors.red,
+                        );
+                  ;
+                },
+                child: Text(confirmLabel),
+              ),
+            ],
+          );
+        }
+      },
     );
   }
 
@@ -505,7 +582,17 @@ class HomePageState extends State<HomePage> {
   }
 
   // agregar medicamento
-  addMed(BuildContext context,String user,String nombre,String tipo,String descripcion,String dosis,List<dynamic> dias,String hour,String minute,String? amOrPm) async {
+  addMed(
+      BuildContext context,
+      String user,
+      String nombre,
+      String tipo,
+      String descripcion,
+      String dosis,
+      List<dynamic> dias,
+      String hour,
+      String minute,
+      String? amOrPm) async {
     // formatear hora
     String tardeOManana = amOrPm.toString();
     String horaFormateada = formatearHora(hour, tardeOManana);
@@ -543,6 +630,80 @@ class HomePageState extends State<HomePage> {
     }
   }
 
+  updMed(
+      BuildContext context,
+      String idmed,
+      String nombre,
+      String tipo,
+      String descripcion,
+      String dosis,
+      List<dynamic> dias,
+      String hour,
+      String minute,
+      String? amOrPm) async {
+    // formatear hora
+    String tardeOManana = amOrPm.toString();
+    String horaFormateada = formatearHora(hour, tardeOManana);
+    String minutoFormateado = formatearMinuto(minute);
+    // esto sera lo que se le enviara al api en hora
+    String horaRecordatorio =
+        horaFormateada + ":" + minutoFormateado + ":" + "00";
+
+    // cambiar info medicamento
+    var res = await medUpdate(nombre, tipo, idmed, descripcion, dosis);
+    if (res['success']) {
+      Fluttertoast.showToast(
+          msg: 'Datos medicamento actualizado', textColor: Colors.green);
+
+      // cambiar dias recordatorio
+      List<String> diasDeLaSemana = [
+        'Lunes',
+        'Martes',
+        'Miércoles',
+        'Jueves',
+        'Viernes',
+        'Sábado',
+        'Domingo'
+      ];
+      int nRecAgregados = 0;
+      int nRecBorrados = 0;
+      int nRecEsperados = dias.length;
+      int nRecNoAgregados = diasDeLaSemana.length - dias.length;
+
+      diasDeLaSemana.forEach((diaSemana) async {
+        // si esta, se agrega
+        if (dias.contains(diaSemana)) {
+          var resRecAdd = await recRegister(diaSemana, horaRecordatorio, idmed);
+          if (resRecAdd['success']) {
+            nRecAgregados++;
+          }
+        } else {
+          // sino se borra
+          var resRecDel = await recDelete(idmed, diaSemana);
+          if (resRecDel['success']) {
+            nRecBorrados++;
+          }
+        }
+
+        if (nRecAgregados == nRecEsperados && nRecBorrados == nRecNoAgregados) {
+          Fluttertoast.showToast(
+              msg: 'Dias recordatorio actualizados', textColor: Colors.green);
+          var recHoraUpd = await horaUpdate(idmed, horaRecordatorio);
+          if (recHoraUpd['success']) {
+            Fluttertoast.showToast(
+                msg: 'Hora medicamento actualizada', textColor: Colors.green);
+            // cerrar y recargar
+            Navigator.of(context).pop();
+            setState(() {});
+          }
+        }
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: 'Fallo al actualizar medicamento', textColor: Colors.red);
+    }
+  }
+
   // borrar medicamento y todos sus recordatorios
   delMed(String id) async {
     var res = await medDelete(id);
@@ -550,10 +711,9 @@ class HomePageState extends State<HomePage> {
       Fluttertoast.showToast(
           msg: 'Medicamento eliminado', textColor: Colors.green);
       setState(() {});
-    }else{
+    } else {
       Fluttertoast.showToast(
           msg: 'Fallo al eliminar el medicamento', textColor: Colors.red);
-
     }
   }
 
@@ -585,5 +745,31 @@ class HomePageState extends State<HomePage> {
       return minutoFormateado;
     }
     return minute;
+  }
+
+  String desFormatearHora(String hour) {
+    // si es 00 se remplaza por un 12
+    if (hour == "00") {
+      String horaDesFormateada = "12";
+      return horaDesFormateada;
+    }
+    // si es mayor a 12 se le resta 12
+    int horaNumeros = int.parse(hour);
+    if (horaNumeros > 12) {
+      int horaNumeroCor = horaNumeros - 12;
+      String horaDesFormateada = horaNumeroCor.toString();
+      return horaDesFormateada;
+    }
+    // sino se asume que es de mañana y se deja quieto
+    return hour;
+  }
+
+  String determinarAmPm(String hour) {
+    // si es mayor a 12 es PM
+    if (int.parse(hour) >= 12) {
+      return "PM";
+    }
+
+    return "AM";
   }
 }
