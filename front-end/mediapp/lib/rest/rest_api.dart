@@ -152,3 +152,20 @@ Future horaUpdate(String idmed,String hora) async{
    
   return decodedData;
 }
+
+// devolver recordatorios por dia
+Future<List<dynamic>> dayMeds(int id_Usuario,String dia) async {
+    var url = Uri.parse('${Utils.baseUrl}/rec/dia/$id_Usuario/$dia');
+    var response = await http.get(url);
+    var medItems = [];
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      if (jsonResponse['success'] == true) {
+        medItems = jsonResponse["recordatorio"];
+        
+      }
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+    return medItems;
+  }

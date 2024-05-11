@@ -149,8 +149,7 @@ class HomePageState extends State<HomePage> {
                       'Medicamentos', true), // Destacar la primera vista
                   _buildNavigationButton(context, Icons.calendar_month_outlined,
                       'Calendario', false),
-                  _buildNavigationButton(
-                      context, Icons.notifications, 'Notificaciones', false),
+                  
                 ],
               ),
             ),
