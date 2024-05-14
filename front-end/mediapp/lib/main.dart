@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width, // Ancho completo de la pantalla
                 child: Image.asset(
-                  'assets/pills4u.png', // Ruta de tu imagen de logo
+                  'assets/mediapp.jpeg', // Ruta de tu imagen de logo
                   fit: BoxFit.fitWidth, // Ajusta la imagen al ancho del contenedor
                 ),
               ),

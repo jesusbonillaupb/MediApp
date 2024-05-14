@@ -42,7 +42,7 @@ class WelcomeScreen extends StatelessWidget {
               color: Colors.white, // Fondo color blanco
               alignment: Alignment.center,
               child: Image.asset(
-                'assets/pills4u.png', // Ruta de tu imagen de logo
+                'assets/mediapp.jpeg', // Ruta de tu imagen de logo
                 height: 200,
               ),
             ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 import 'package:proyect_views_front/AppStyles/app_colors.dart';
+import 'package:proyect_views_front/notification/notification_service.dart';
 import 'package:proyect_views_front/rest/rest_api.dart';
 import 'package:proyect_views_front/screens/calendario.dart';
 import 'package:proyect_views_front/widgets/tarjeta_medicacion.dart';
@@ -19,10 +21,13 @@ class HomePageState extends State<HomePage> {
   late SharedPreferences _prefs;
   //String _userName = ''; // Variable para almacenar el nombre de usuario
   int _userid = 0;
+  NotificationServices notificationServices = NotificationServices();
+
   @override
   void initState() {
     super.initState();
     _initSharedPreferences();
+    notificationServices.initialiseNotifications();
   }
 
   // Método para inicializar SharedPreferences y recuperar el nombre de usuario
@@ -149,7 +154,6 @@ class HomePageState extends State<HomePage> {
                       'Medicamentos', true), // Destacar la primera vista
                   _buildNavigationButton(context, Icons.calendar_month_outlined,
                       'Calendario', false),
-                  
                 ],
               ),
             ),
@@ -345,7 +349,29 @@ class HomePageState extends State<HomePage> {
             ;
           },
           child: Text(confirmLabel),
-        ),
+        ),/*
+        TextButton(
+            onPressed: () {
+              // notificationServices.sendNotification(nameController.text,dosageController.text );
+                  
+              
+               //notificationServices.stopNotifications();
+              /*List<PendingNotificationRequest> pendingNotifications =
+                  await notificationServices.getPendingNotifications();
+
+              // Imprime la lista de notificaciones pendientes en la consola
+              print('Pending Notifications:');
+              pendingNotifications.forEach((notification) {
+                print('ID: ${notification.id}');
+                print('Title: ${notification.title}');
+                print('Body: ${notification.body}');
+                print('Payload: ${notification.payload}');
+                
+                print('');
+              });  */
+              
+            },
+            child: Text("agregar notificacion")) */
       ],
     );
   }
@@ -620,6 +646,7 @@ class HomePageState extends State<HomePage> {
                 msg: 'Recordatorio(s) agregado(s)', textColor: Colors.green);
             Navigator.of(context).pop();
             setState(() {});
+            // notificationServices.scheduleNotification(nombre,dosis);
           }
         }
       });
